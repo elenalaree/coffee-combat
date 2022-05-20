@@ -51,13 +51,7 @@ clearScores.className = "btn";
 clearScores.textContent = "Clear high scores.";
 
 //restart
-var restartGame = function(){
-  scoreHigh.remove();
-  body.appendChild(main);
-  main.appendChild(sectionEl);
-  sectionEl.appendChild(cardEl);
-  cardEl.appendChild(buttonEl);
-}
+
 
 //timer
 var updateDisplayedTime = function(){  
@@ -281,6 +275,7 @@ input.className = "nameSlot";
 
 var submit = document.createElement("button");
 submit.className = "btn";
+submit.textContent = "Submit";
 
 
 function deleteScore(){
@@ -305,12 +300,6 @@ function endGame() {
   
 
 };
-
-
-
-
-
-goBack.onclick = restartGame();
 //Save page
 function scoreHigh() {
   finalCard.remove();
@@ -320,10 +309,25 @@ function scoreHigh() {
   highScoresPage.appendChild(buttonKeeper);
   buttonKeeper.append(goBack);
   buttonKeeper.append(clearScores);
-clearScores.onclick = deleteScore();
-
+  clearScores.onclick = deleteScore();
+  
 };
+var restartGame = function(){
+  highScoresPage.remove();
+  body.appendChild(main);
+  main.appendChild(sectionEl);
+  sectionEl.appendChild(cardEl);
+  cardEl.appendChild(buttonEl);
+}
+goBack.onclick = restartGame;
 
+var viewHighScores = function(){
+  sectionEl.innerHTML = "";
+  scoreHigh();
+
+}
+//go to heigh scores page
+highEl.onclick = viewHighScores;
 
 //High score page
 

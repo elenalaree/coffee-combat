@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+/*main info*/
+section {
+    display: flex;
+    margin: auto;
+    width: 100%;
+    margin-top: 10%;
+    justify-content: center;
+}
+
+/*card info*/
+section div {
+    font-size: 20px;
+    font-weight: bold;
+    width: 40%;
+    text-align: center;
+
+}
+
+li {
+    font-weight: 400;
+    margin: 5px;
+    list-style: number inside;
+}
+
+/*button styles*/
+
+.btn, li {
+    background: #117182;
+    color:#E8F2FE;
+    text-align: left;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px 1px rgba(0,0,0,0.25);
+}
+
+.btn:hover, li:hover {
+    opacity: .85;
+    cursor: pointer;
+}
+
+.btn:active, li:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 5px 1px rgba(0,0,0,0.25);
+}
+
+/*form info*/
+.keeper {
+    display: flex;
+    width: 100%;
+   
+
+
+}
+
+input {
+    margin:5px;
+    
+}
+
+.nameSlot {
+    padding:4px;
+    width: 70%;
+    
+}
+
+.highScore {
+    color:#117182;
+}
+
+p {
+    width:100%;
+    height: 60px;
+}

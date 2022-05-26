@@ -33,7 +33,7 @@ var highScoresPage = document.createElement("div");
 highScoresPage.innerHTML = "<h2>High Scores</h2> ";
 
 var scoreListSet = document.createElement("ol");
-var scoreList = document.createElement("li");
+
 
 var buttonKeeper = document.createElement("div");
 buttonKeeper.className = "keeper";
@@ -65,6 +65,7 @@ var startTime = function(){
   function countdown() {
       if (timeLeft < 0) {
         clearTimeout(timerId);
+
         
       } else {
         updateDisplayedTime();
@@ -164,20 +165,20 @@ cList4.onclick = answerClickFactory(true, answer3, list3);
 
 //card 4
 var cardQ4 = document.createElement("div");
-cardQ4.innerHTML = "<p>What is the right way?</p>";
+cardQ4.innerHTML = "<p>What is passed into a function?</p>";
 var list4 = document.createElement("ol");
 
 
 var dList1 = document.createElement("li");
-dList1.textContent = "true";
+dList1.textContent = "Parameters";
 dList1.onclick = answerClickFactory(false, endGame, list4);
 
 var dList2 = document.createElement("li");
-dList2.textContent = "append";
+dList2.textContent = "String";
 dList2.onclick = answerClickFactory(false, endGame, list4);
 
 var dList3 = document.createElement("li");
-dList3.textContent = "string";
+dList3.textContent = "Ar";
 dList3.onclick = answerClickFactory(true, endGame, list4);
 
 var dList4 = document.createElement("li");
@@ -263,10 +264,8 @@ function answer3() {
   list4.appendChild(dList3);
   list4.appendChild(dList4);
 }
-
+//form information
 var form = document.createElement("form");
-
-
 var input = document.createElement("input");
 input.setAttribute('type', "text");
 input.setAttribute('name', "username");
@@ -276,15 +275,20 @@ input.className = "nameSlot";
 var submit = document.createElement("button");
 submit.className = "btn";
 submit.textContent = "Submit";
+//high scores array
+var highestScores = [].sort((a,b)=>b-a);
 
-
+//delete Scores Function
 function deleteScore(){
   localStorage.clear();
 }
-
- var saveScore = function() {
-    localStorage.setItem("score", JSON.stringify(score));
-  };
+//save scores function
+var saveScore = function() {
+  var userScore = [timeLeft,  input.value];
+  highestScores.push(userScore);
+  localStorage.setItem("highestScores", JSON.stringify(highestScores));
+  window.alert(JSON.stringify(highestScores));
+};
 
 //Game Over
 function endGame() {
@@ -295,37 +299,89 @@ function endGame() {
   sectionEl.appendChild(finalCard);
   finalCard.appendChild(form);
   form.appendChild(input);
-  submit.setAttribute("onclick", "scoreHigh();");
+  form.addEventListener("submit", scoreHigh);
   form.appendChild(submit);
-  
-
 };
+
+//timed game over
+
+function endGame() {
+  sectionEl.innerHTML = "";
+  updateDisplayedTime();
+  finalCard.innerHTML = "<h1>All done!</h1><p>Your final score is " + timeLeft + ".</p>";
+  sectionEl.appendChild(finalCard);
+  finalCard.appendChild(form);
+  form.appendChild(input);
+  form.addEventListener("submit", scoreHigh);
+  form.appendChild(submit);
+};
+
 //Save page
-function scoreHigh() {
+let retrieve = JSON.parse(localStorage.getItem('highestScore'));
+clearScores.onclick = deleteScore();
+
+
+//appends high scores on the high score page.
+function highList(){
+ let numberOfListItems = highestScores.length, scoreList, i;
+for (i = 0; i < numberOfListItems; ++i) {
+    // Create an item for each one
+    scoreList = document.createElement('li');
+
+    // Add the item text
+    scoreList.innerHTML = highestScores[i];
+
+    // Add listItem to the listElement
+    scoreListSet.appendChild(scoreList);
+  }
+};
+
+//delete high scores
+function killList(){
+  scoreListSet.innerHTML = "";
+};
+
+//High Score page
+
+function scoreHigh(event) {
+  event.preventDefault;
+  saveScore();
   finalCard.remove();
   sectionEl.appendChild(highScoresPage);
   highScoresPage.appendChild(scoreListSet);
-  scoreListSet.appendChild(scoreList);
+  highList();
   highScoresPage.appendChild(buttonKeeper);
   buttonKeeper.append(goBack);
   buttonKeeper.append(clearScores);
-  clearScores.onclick = deleteScore();
+  
   
 };
+
+function onlyScoresPage() {
+  sectionEl.appendChild(highScoresPage);
+  highScoresPage.appendChild(scoreListSet);
+  highList();
+  highScoresPage.appendChild(buttonKeeper);
+  buttonKeeper.append(goBack);
+  buttonKeeper.append(clearScores);
+};
+
 var restartGame = function(){
   highScoresPage.remove();
   body.appendChild(main);
   main.appendChild(sectionEl);
   sectionEl.appendChild(cardEl);
   cardEl.appendChild(buttonEl);
-}
-goBack.onclick = restartGame;
+  
+};
+
+goBack.setAttribute("onclick", "restartGame(); killList(); ");
 
 var viewHighScores = function(){
   sectionEl.innerHTML = "";
-  scoreHigh();
+  onlyScoresPage();
 
-}
+};
 //go to heigh scores page
 highEl.onclick = viewHighScores;
 

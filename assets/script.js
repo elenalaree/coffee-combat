@@ -278,6 +278,7 @@ submit.textContent = "Submit";
 //high scores array
 var highestScores = [];
 
+
 //delete Scores Function
 function deleteScore(){
   localStorage.clear();
@@ -327,7 +328,7 @@ for (i = 0; i < numberOfListItems; ++i) {
     scoreList = document.createElement('li');
 
     // Add the item text
-    scoreList.innerHTML = highestScores[i];
+    scoreList.innerHTML = retrieve[i];
 
     // Add listItem to the listElement
     scoreListSet.appendChild(scoreList);

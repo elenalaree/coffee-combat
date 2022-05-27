@@ -276,7 +276,7 @@ var submit = document.createElement("button");
 submit.className = "btn";
 submit.textContent = "Submit";
 //high scores array
-var highestScores = [].sort((a,b)=>b-a);
+var highestScores = [];
 
 //delete Scores Function
 function deleteScore(){
@@ -284,10 +284,9 @@ function deleteScore(){
 }
 //save scores function
 var saveScore = function() {
-  var userScore = [timeLeft,  input.value];
+  var userScore = `${timeLeft} - ${input.value}`;
   highestScores.push(userScore);
   localStorage.setItem("highestScores", JSON.stringify(highestScores));
-  window.alert(JSON.stringify(highestScores));
 };
 
 //Game Over
@@ -304,17 +303,16 @@ function endGame() {
 };
 
 //timed game over
-
-function endGame() {
+function timerEndKill() {
   sectionEl.innerHTML = "";
   updateDisplayedTime();
-  finalCard.innerHTML = "<h1>All done!</h1><p>Your final score is " + timeLeft + ".</p>";
-  sectionEl.appendChild(finalCard);
-  finalCard.appendChild(form);
-  form.appendChild(input);
-  form.addEventListener("submit", scoreHigh);
-  form.appendChild(submit);
-};
+   finalCard.innerHTML = "<h1>Out of Time!</h1><p>Your final score is " + timeLeft + ".</p>";
+   sectionEl.appendChild(finalCard);
+   finalCard.appendChild(form);
+   form.appendChild(input);
+   form.addEventListener("submit", scoreHigh);
+   form.appendChild(submit);
+ };
 
 //Save page
 let retrieve = JSON.parse(localStorage.getItem('highestScore'));

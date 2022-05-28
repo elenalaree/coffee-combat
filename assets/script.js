@@ -58,14 +58,16 @@ var updateDisplayedTime = function(){
   timerEl.textContent = 'Time: ' + timeLeft ;
 };
 
+// function to start count down timer
 var startTime = function(){ 
-  timeLeft = 60; 
+  timeLeft = 59; 
    timerId = setInterval(countdown, 1000); 
    
   function countdown() {
-      if (timeLeft < 0) {
+      if (timeLeft < 1) {
         clearTimeout(timerId);
-
+        //function to end the game at 0
+        timerEndKill();
         
       } else {
         updateDisplayedTime();
@@ -74,7 +76,7 @@ var startTime = function(){
   }
 };
 
-
+// function to stop the timer
 var stopTime = function(){
   clearInterval(timerId);
 };
@@ -198,7 +200,11 @@ wrong.textContent = "Wrong!";
 correct.textContent = "Correct!";
 
 
+var viewHighScores = function(){
+  sectionEl.innerHTML = "";
+  onlyScoresPage();
 
+};
 
 //header
 body.appendChild(header);
@@ -275,6 +281,7 @@ input.className = "nameSlot";
 var submit = document.createElement("button");
 submit.className = "btn";
 submit.textContent = "Submit";
+
 //high scores array
 var highestScores = [];
 
@@ -282,6 +289,8 @@ var highestScores = [];
 //delete Scores Function
 function deleteScore(){
   localStorage.clear();
+  scoreListSet.innerHTML = "";
+  
 }
 //save scores function
 var saveScore = function() {
@@ -316,8 +325,18 @@ function timerEndKill() {
  };
 
 //Save page
-let retrieve = JSON.parse(localStorage.getItem('highestScore'));
-clearScores.onclick = deleteScore();
+
+//check for local storage items
+function loadScores(){
+ highestScores = JSON.parse(localStorage.getItem('highestScores'));
+  if(highestScores == null){
+    highestScores = [];
+  }
+}
+loadScores();
+
+
+clearScores.onclick = deleteScore;
 
 
 //appends high scores on the high score page.
@@ -328,7 +347,7 @@ for (i = 0; i < numberOfListItems; ++i) {
     scoreList = document.createElement('li');
 
     // Add the item text
-    scoreList.innerHTML = retrieve[i];
+    scoreList.innerHTML = highestScores[i];
 
     // Add listItem to the listElement
     scoreListSet.appendChild(scoreList);
@@ -352,10 +371,9 @@ function scoreHigh(event) {
   highScoresPage.appendChild(buttonKeeper);
   buttonKeeper.append(goBack);
   buttonKeeper.append(clearScores);
-  
-  
 };
 
+//function to display the scores
 function onlyScoresPage() {
   sectionEl.appendChild(highScoresPage);
   highScoresPage.appendChild(scoreListSet);
@@ -365,6 +383,7 @@ function onlyScoresPage() {
   buttonKeeper.append(clearScores);
 };
 
+//function to restart the game
 var restartGame = function(){
   highScoresPage.remove();
   body.appendChild(main);
@@ -376,11 +395,7 @@ var restartGame = function(){
 
 goBack.setAttribute("onclick", "restartGame(); killList(); ");
 
-var viewHighScores = function(){
-  sectionEl.innerHTML = "";
-  onlyScoresPage();
 
-};
 //go to heigh scores page
 highEl.onclick = viewHighScores;
 
